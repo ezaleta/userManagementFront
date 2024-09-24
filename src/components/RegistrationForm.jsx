@@ -22,31 +22,33 @@ function RegistrationForm() {
     };
     return (
         <div className="container mt-5">
-            <h2 className="mb-4">Register</h2>
+            <h2 className="mb-4">Registration</h2>
             {errorMessage && <div className="alert alert-danger">{errorMessage}</div>}
-            <form onSubmit={handleSubmit}>
-                <div className="mb-3">
-                    <label htmlFor="name" className="form-label">
-                        Name
-                    </label>
-                    <input type="text" className="form-control" id="name" value={name} onChange={(e) => setName(e.target.value)} required />
-                </div>
-                <div className="mb-3">
-                    <label htmlFor="email" className="form-label">
-                        Email address
-                    </label>
-                    <input type="email" className="form-control" id="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
-                </div>
-                <div className="mb-3">
-                    <label htmlFor="password" className="form-label">
-                        Password (at least one character)
-                    </label>
-                    <input type="password" className="form-control" id="password" value={password} onChange={(e) => setPassword(e.target.value)} required minLength="1" />
-                </div>
-                <button type="submit" className="btn btn-primary">
-                    Register
-                </button>
-            </form>
+            <div className="registration card mt-5 p-4">
+                <form onSubmit={handleSubmit}>
+                    <div className="mb-3 text-start">
+                        <label htmlFor="name" className="form-label">
+                            Name:
+                        </label>
+                        <input type="text" className="form-control" id="name" value={name} onChange={(e) => setName(e.target.value)} required />
+                    </div>
+                    <div className="mb-3 text-start">
+                        <label htmlFor="email" className="form-label">
+                            Email address:
+                        </label>
+                        <input type="email" className="form-control" id="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+                    </div>
+                    <div className="mb-3 text-start">
+                        <label htmlFor="password" className="form-label">
+                            Password (at least one character):
+                        </label>
+                        <input type="password" className="form-control" id="password" value={password} onChange={(e) => setPassword(e.target.value)} required minLength="1" />
+                    </div>
+                    <button type="submit" className="btn btn-primary">
+                        Register
+                    </button>
+                </form>
+            </div>
         </div>
     );
 }
