@@ -23,28 +23,31 @@ function LoginForm() {
     };
     return (
         <div className="container mt-5">
-            <h2 className="mb-4">Login</h2>
-            {errorMessage && <div className="alert alert-danger">{errorMessage}</div>}
-            <form onSubmit={handleSubmit}>
-                <div className="mb-3">
-                    <label htmlFor="email" className="form-label">
-                        Email address
-                    </label>
-                    <input type="email" className="form-control" id="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
-                </div>
-                <div className="mb-3">
-                    <label htmlFor="password" className="form-label">
-                        Password
-                    </label>
-                    <input type="password" className="form-control" id="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
-                </div>
-                <button type="submit" className="btn btn-primary">
-                    Login
-                </button>
-                <p>
-                    Don't have an account? <Link to="/register">Register here</Link>
-                </p>
-            </form>
+            <h1>User Management</h1>
+            <div className="login card mt-5 p-4">
+                <h2 className="mb-4">Login</h2>
+                {errorMessage && <div className="alert alert-danger">{errorMessage}</div>}
+                <form onSubmit={handleSubmit}>
+                    <div className="mb-3">
+                        <label htmlFor="email" className="form-label">
+                            Email address
+                        </label>
+                        <input type="email" className="form-control" id="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+                    </div>
+                    <div className="mb-3">
+                        <label htmlFor="password" className="form-label">
+                            Password
+                        </label>
+                        <input type="password" className="form-control" id="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
+                    </div>
+                    <button type="submit" className="btn btn-primary">
+                        Login
+                    </button>
+                    <p>
+                        Don't have an account? <Link to="/register">Register here</Link>
+                    </p>
+                </form>
+            </div>
         </div>
     );
 }

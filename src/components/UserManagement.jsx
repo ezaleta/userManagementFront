@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import axiosInstance from "../api/axiosConfig";
 import { useNavigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
+import { Trash, LockFill, UnlockFill } from "react-bootstrap-icons";
 
 function UserManagement() {
     const [users, setUsers] = useState([]);
@@ -9,13 +10,15 @@ function UserManagement() {
     const [errorMessage, setErrorMessage] = useState("");
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
-
     const token = localStorage.getItem("token");
+    let loggedInUser = null;
     let currentUserId = null;
+
     if (token) {
         try {
             const decodedToken = jwtDecode(token);
             currentUserId = decodedToken.id;
+            loggedInUser = users.find((user) => user.id === currentUserId);
         } catch (error) {
             console.error("Token Decoding Error:", error);
             localStorage.removeItem("token");
@@ -98,38 +101,44 @@ function UserManagement() {
 
     return (
         <div className="container mt-5">
-            <h2 className="mb-4">User Management</h2>
+            <h1 className="mb-5 text-center">Hi, {loggedInUser?.name ? loggedInUser.name : ""}!</h1>
 
-            <div className="mb-3 text-end">
-                <button className="btn btn-warning" onClick={handleLogout}>
+            {/* Logout Button */}
+            <div className="mb-4 text-end">
+                <button className="btn btn-primary" onClick={handleLogout}>
                     Logout
                 </button>
             </div>
-
+            {/* Error Message */}
             {errorMessage && (
                 <div className="alert alert-danger" role="alert">
                     {errorMessage}
                 </div>
             )}
-
-            <div className="mb-3">
+            {/* Toolbar with Icons */}
+            <div className="mb-4 text-start">
                 <button className="btn btn-danger me-2" onClick={() => handleAction("block")} disabled={selectedUserIds.length === 0}>
+                    <LockFill className="me-1" />
                     Block
                 </button>
                 <button className="btn btn-secondary me-2" onClick={() => handleAction("unblock")} disabled={selectedUserIds.length === 0}>
-                    <i className="bi bi-unlock"></i> Unblock
+                    <UnlockFill className="me-1" />
+                    Unblock
                 </button>
                 <button className="btn btn-secondary" onClick={() => handleAction("delete")} disabled={selectedUserIds.length === 0}>
-                    <i className="bi bi-trash"></i> Delete
+                    <Trash className="me-1" />
+                    Delete
                 </button>
             </div>
-
+            {/* Loading Indicator */}
             {loading ? (
                 <div>Loading users...</div>
             ) : (
-                <table className="table table-striped table-bordered">
-                    <thead>
+                /* User Table with Borders and Highlighted Headers */
+                <table className="table table-hover table-striped">
+                    <thead className="table-light">
                         <tr>
+                            {/* Select All Checkbox */}
                             <th scope="col">
                                 <input type="checkbox" checked={selectedUserIds.length === users.length && users.length > 0} onChange={handleSelectAll} />
                             </th>
@@ -137,13 +146,13 @@ function UserManagement() {
                             <th scope="col">Name</th>
                             <th scope="col">Email</th>
                             <th scope="col">Last Login Time</th>
-                            <th scope="col">Registration Time</th>
                             <th scope="col">Status</th>
                         </tr>
                     </thead>
                     <tbody>
                         {users.map((user) => (
-                            <tr key={user.id}>
+                            <tr key={user.id} className={selectedUserIds.includes(user.id) ? "table-primary" : ""}>
+                                {/* User Checkbox */}
                                 <td>
                                     <input type="checkbox" checked={selectedUserIds.includes(user.id)} onChange={() => handleSelectUser(user.id)} />
                                 </td>
@@ -151,8 +160,9 @@ function UserManagement() {
                                 <td>{user.name}</td>
                                 <td>{user.email}</td>
                                 <td>{user.last_login_time ? new Date(user.last_login_time).toLocaleString() : "Never"}</td>
-                                <td>{new Date(user.registration_time).toLocaleString()}</td>
-                                <td>{user.status}</td>
+                                <td>
+                                    <span className={`badge ${user.status === "active" ? "bg-success" : "bg-secondary"}`}>{user.status}</span>
+                                </td>
                             </tr>
                         ))}
                     </tbody>

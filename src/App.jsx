@@ -3,6 +3,7 @@ import RegistrationForm from "./components/RegistrationForm";
 import LoginForm from "./components/LoginForm";
 import UserManagement from "./components/UserManagement";
 import PrivateRoute from "./components/PrivateRoute";
+import "./App.css";
 
 function App() {
     return (
